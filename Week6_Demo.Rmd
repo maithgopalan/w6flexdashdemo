@@ -1,0 +1,77 @@
+---
+title: "Week 6 Flexdashboard Demo"
+output: 
+  flexdashboard::flex_dashboard:
+    theme:
+      bg: "#101010"
+      fg: "#FDF7F7" 
+      primary: "#ED79F9"
+      base_font:
+        google: Prompt
+      code_font:
+        google: JetBrains Mono
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(ggplot2)
+library(tidyverse)
+library(dviz.supp)
+library(countdown)
+library(showtext)
+library(scales)
+library(here)
+
+```
+
+Column {data-width=650 .tabset}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+ggplot(mtcars, aes(wt, mpg)) + 
+  geom_point() +
+  labs(title = "Fuel Efficiency of 32 Cars",
+       x = "Weight (x1000 lb)",
+       y = "Miles per Gallon") +
+  theme(text = element_text(family = "sans", size = 30))
+```
+
+### Chart B
+
+```{r}
+ggplot() + 
+  geom_text(
+    aes(x = 0, y = 2, label = "x <- y != z"), 
+    family = "sans"
+  ) +
+  labs(title = "twitter") +
+  theme(
+    plot.title = element_text(
+      family = "sans"
+    )
+  )
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart C
+
+```{r}
+gapminder <- read_csv("C:/Users/mgopalan/ahdatavizclassrepo/example 1/data/gapminder.csv", show_col_types = FALSE ) 
+
+gapminder_2007_America <- gapminder |> 
+  filter(year == 2007 & continent== "Americas")
+
+ggplot(gapminder_2007_America,
+       aes(x = gdpPercap, y = lifeExp, size = pop)) + 
+  geom_point() +
+  scale_x_log10(labels = label_dollar()) +
+  scale_size_continuous(labels = label_comma())
+```
+
+
